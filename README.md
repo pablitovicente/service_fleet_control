@@ -11,7 +11,7 @@ npm i -save service_fleet_control
 ```
 
 ## @TODO before this can be used
-* Implement Registry Server
+* ~~Implement Registry Server~~
 * Correct Error Handling
 * Add validation schemas for both Service and Registry
 * Encryption
