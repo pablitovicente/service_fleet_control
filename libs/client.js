@@ -57,6 +57,7 @@ class Client {
 
   disconnect() {
     this.connection.end();
+    this.connection = null;
   }
 
   send(payload, metrics) {

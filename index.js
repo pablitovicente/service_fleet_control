@@ -26,7 +26,7 @@ class Control {
   constructor(configuration) {
     Object.assign(this, configuration);
     this.configuration = configuration;
-    this.metrics = new Metrics({ os });
+    this.metrics = new Metrics({ os, updateIntervalSeconds: configuration.updateIntervalSeconds });
     this.netClient = new Client(net, this.metrics, configuration); // @TODO move this initialization to init();
     this.registryService = null;
   }

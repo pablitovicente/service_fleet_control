@@ -28,6 +28,7 @@ class Registry {
     this.server = net.createServer((socket) => {
       socket.on('data', (data) => {
         const clientPacket = JSON.parse(data.toString());
+
         logger(`${socket.id} sent a message.`);
         logger(JSON.stringify(clientPacket, null, 2));
         logger('%'.repeat(220));
@@ -51,6 +52,7 @@ class Registry {
         logger('Total Requests: ', this.totalNumberUpdatesSent);
         logger('#'.repeat(220));
         logger('Client Disconected');
+        this.cleanup();
       });
     });
 
@@ -65,6 +67,16 @@ class Registry {
       .keys(this.serviceNetwork)
       .filter(aGroupingKey => aGroupingKey === groupingKey)
       .length > 0;
+  }
+
+  // Delete services that hasn't reported in its configured time
+  cleanup() {
+    Object
+      .keys(this.serviceNetwork)
+      .forEach((aServiceGroup) => {
+        console.log(aServiceGroup);
+        console.log('*'.repeat(220));
+      });
   }
 
   listen() {

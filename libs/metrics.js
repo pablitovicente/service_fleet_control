@@ -19,6 +19,7 @@
 class Metrics {
   constructor(options) {
     this.os = options.os;
+    this.updateIntervalSeconds = options.updateIntervalSeconds;
   }
 
   memoryUsage() {
@@ -37,7 +38,11 @@ class Metrics {
   }
 
   kpis() {
-    return { ...this.memoryUsage(), ...this.osInfo() };
+    return {
+      ...this.memoryUsage(),
+      ...this.osInfo(),
+      updateIntervalSeconds: this.updateIntervalSeconds,
+    };
   }
 }
 
