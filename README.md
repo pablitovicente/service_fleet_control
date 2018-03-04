@@ -7,7 +7,7 @@ ALPHA STILL IN DEVELOPMENT!
 ## Install
 
 ```bash
-npm i -save kaos_control
+npm i -save service_fleet_control
 ```
 
 ## Usage
