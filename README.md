@@ -26,7 +26,7 @@ npm i -save service_fleet_control
 See ./examples/ folder.
 
 ## Future Features!
-* Allow Services to comunicate it's API via swagger or graphql
+* Allow Services to comunicate its API via swagger or graphql
 * Allow Registry to shootdown Services via exposition of an API
 
 ## Using this module? 
