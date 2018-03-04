@@ -20,12 +20,15 @@ const net = require('net');
 
 const Metrics = require('./libs/metrics');
 const Client = require('./libs/client');
+const Registry = require('./libs/registry');
 
 class Control {
   constructor(configuration) {
     Object.assign(this, configuration);
+    this.configuration = configuration;
     this.metrics = new Metrics({ os });
-    this.netClient = new Client(net, this.metrics, configuration);
+    this.netClient = new Client(net, this.metrics, configuration); // @TODO move this initialization to init();
+    this.registryService = null;
   }
 
   // Starts the client or server depending on the configuration
@@ -34,6 +37,8 @@ class Control {
       console.log('Running Client');
       this.stayAlive();
     } else if (this.isRegistry()) {
+      this.registryService = new Registry(net, this.configuration);
+      this.startRegistryService();
       console.log(`Starting Registry. Listening for clients on "${this.registryHost}:${this.registryPort}"`);
     } else {
       throw new Error('Kaos/Control misconfiguration "role" should either be "server" or "client"');
@@ -48,6 +53,10 @@ class Control {
   // Checks if the module is acting as a server keeping track of clients
   isRegistry() {
     return this.role === 'registry';
+  }
+
+  startRegistryService() {
+    this.registryService.listen();
   }
 
   stayAlive() {
