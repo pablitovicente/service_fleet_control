@@ -1,6 +1,6 @@
 {
   "name": "service_fleet_control",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "This modules enables your services to auto anounce themselves to a master service. The idea is for you to know what services are up, down, its status and how can they be reached by your master service. ",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,8 @@
   },
   "author": "Pablo Vicente <ipassedthevoightkampff@gmail.com>",
   "license": "GPLv3",
-  "dependencies": {},
+  "dependencies": {
+  },
   "devDependencies": {
     "chai": "4.1.2",
     "eslint": "4.18.2",
