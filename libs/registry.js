@@ -23,6 +23,7 @@ class Registry {
     this.serviceNetwork = {};
     this.net = net;
     this.connection = null;
+    this.totalNumberUpdatesSent = 0;
 
     this.server = net.createServer((socket) => {
       socket.on('data', (data) => {
@@ -30,7 +31,7 @@ class Registry {
         logger(`${socket.id} sent a message.`);
         logger(JSON.stringify(clientPacket, null, 2));
         logger('%'.repeat(220));
-        
+
         if (!this.groupingKeyExists(clientPacket.payload.groupingKey)) {
           this.serviceNetwork[clientPacket.payload.groupingKey] = {};
           this.serviceNetwork[clientPacket.payload.groupingKey][clientPacket.payload.metrics.hostname] = clientPacket.payload;
@@ -41,11 +42,13 @@ class Registry {
 
       // Register a listener for disconnections so we can keep the "user" list updated
       socket.on('end', () => {
+        this.totalNumberUpdatesSent += 1;
         // const disconnectedClient = socket.id;
         // delete users[socket.id];
         // logger.info(`${disconnectedClient} disconnected.`);
         logger(this.serviceNetwork);
         logger('#'.repeat(220));
+        logger('Total Requests: ', this.totalNumberUpdatesSent);
         logger('#'.repeat(220));
         logger('Client Disconected');
       });
