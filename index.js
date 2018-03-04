@@ -67,18 +67,5 @@ class Control {
   }
 }
 
-
-const myConfig = {
-  serviceName: 'Authentication',
-  updateIntervalSeconds: 2,
-  role: 'service',
-  groupingKey: 'EuropeAuthenticationService',
-  registryHost: 'localhost',
-  registryPort: 50000,
-};
-
-const control = new Control(myConfig);
-
-console.log('*'.repeat(180));
-control.init();
+module.exports = Control;
 

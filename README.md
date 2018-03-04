@@ -10,6 +10,16 @@ ALPHA STILL IN DEVELOPMENT!
 npm i -save service_fleet_control
 ```
 
+## @TODO before this can be used
+* Implement Registry Server
+* Correct Error Handling
+* Add validation schemas for both Service and Registry
+* Encryption
+* Drop JSON for Protocol Buffers
+* Add more test coverage
+* Refactor classes using better patterns
+* Add usage examples
+
 ## Usage
 
 TODO
