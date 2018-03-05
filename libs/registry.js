@@ -47,12 +47,11 @@ class Registry {
         // const disconnectedClient = socket.id;
         // delete users[socket.id];
         // logger.info(`${disconnectedClient} disconnected.`);
-        logger(this.serviceNetwork);
+        logger(JSON.stringify(this.serviceNetwork, null, 2));
         logger('#'.repeat(220));
         logger('Total Requests: ', this.totalNumberUpdatesSent);
         logger('#'.repeat(220));
         logger('Client Disconected');
-        this.cleanup();
       });
     });
 
@@ -67,16 +66,6 @@ class Registry {
       .keys(this.serviceNetwork)
       .filter(aGroupingKey => aGroupingKey === groupingKey)
       .length > 0;
-  }
-
-  // Delete services that hasn't reported in its configured time
-  cleanup() {
-    Object
-      .keys(this.serviceNetwork)
-      .forEach((aServiceGroup) => {
-        console.log(aServiceGroup);
-        console.log('*'.repeat(220));
-      });
   }
 
   listen() {

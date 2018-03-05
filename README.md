@@ -12,14 +12,23 @@ npm i -save service_fleet_control
 
 ## @TODO before this can be used
 * ~~Implement Registry Server~~
-* Correct Error Handling
-* Refactor for solving the poor composition implementation
-* Add validation schemas for both Service and Registry
 * Encryption
+* Better Error Handling
+* Refactor for solving the poor composition implementation
+* Expose a REST API to obtain the data
+* Add validation schemas for both Service and Registry
 * Drop JSON for Protocol Buffers
 * Add more test coverage
 * Refactor classes using better patterns
 * Add usage examples
+
+## General Concept
+
+* The module allows for the creation of either a `Service Registry` or `Service Client`
+* The Registry listens for updates from clients and keeps track of them
+* The Clients send updates to the Registry
+* The general idea is that the Registry provides a single point for obtaining information about the health of your micro-services
+* Instead of using HTTP it uses TCP to keep the memory & cpu footpring as low as possible
 
 ## Usage
 
