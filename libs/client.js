@@ -21,11 +21,6 @@ class Client {
   constructor(net) {
     this.net = net;
     this.connection = null;
-
-    process.on('uncaughtException', (err) => {
-      console.log('Can not send health status. Configured Registry is down or unrechable.');
-      console.log(err.stack);
-    });
   }
 
   registerErrorListner() {

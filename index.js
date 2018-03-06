@@ -17,6 +17,7 @@
 */
 const os = require('os');
 const net = require('net');
+const loki = require('lokijs');
 
 const Metrics = require('./libs/metrics');
 const Client = require('./libs/client');
@@ -37,7 +38,7 @@ class Control {
       console.log('Running Client');
       this.stayAlive();
     } else if (this.isRegistry()) {
-      this.registryService = new Registry(net, this.configuration);
+      this.registryService = new Registry(net, loki, this.configuration);
       this.startRegistryService();
       console.log(`Starting Registry. Listening for clients on "${this.registryHost}:${this.registryPort}"`);
     } else {

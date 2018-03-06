@@ -18,54 +18,36 @@
 const logger = console.log;
 
 class Registry {
-  constructor(net, configuration) {
+  constructor(net, loki, configuration) {
     Object.assign(this, configuration);
-    this.serviceNetwork = {};
     this.net = net;
+    this.Loki = loki;
     this.connection = null;
     this.totalNumberUpdatesSent = 0;
+    this.db = new this.Loki('registry.db');
+    this.serviceNetwork = this.db.addCollection('serviceNetwork');
 
     this.server = net.createServer((socket) => {
       socket.on('data', (data) => {
         const clientPacket = JSON.parse(data.toString());
-
-        logger(`${socket.id} sent a message.`);
-        logger(JSON.stringify(clientPacket, null, 2));
-        logger('%'.repeat(220));
-
-        if (!this.groupingKeyExists(clientPacket.payload.groupingKey)) {
-          this.serviceNetwork[clientPacket.payload.groupingKey] = {};
-          this.serviceNetwork[clientPacket.payload.groupingKey][clientPacket.payload.metrics.hostname] = clientPacket.payload;
-        } else {
-          this.serviceNetwork[clientPacket.payload.groupingKey][clientPacket.payload.metrics.hostname] = clientPacket.payload;
-        }
+        // Only insert a record if one doesn't exist already.
+        if (!this.serviceExist(clientPacket.payload.groupingKey, clientPacket.payload.metrics.hostname)) this.serviceNetwork.insert(clientPacket.payload);
       });
 
       // Register a listener for disconnections so we can keep the "user" list updated
       socket.on('end', () => {
         this.totalNumberUpdatesSent += 1;
-        // const disconnectedClient = socket.id;
-        // delete users[socket.id];
-        // logger.info(`${disconnectedClient} disconnected.`);
-        logger(JSON.stringify(this.serviceNetwork, null, 2));
+        logger(this.serviceNetwork.find());
         logger('#'.repeat(220));
         logger('Total Requests: ', this.totalNumberUpdatesSent);
         logger('#'.repeat(220));
         logger('Client Disconected');
       });
     });
-
-    process.on('uncaughtException', (err) => {
-      logger('Oh Oh Registry Crashed!');
-      logger(err.stack);
-    });
   }
 
-  groupingKeyExists(groupingKey) {
-    return Object
-      .keys(this.serviceNetwork)
-      .filter(aGroupingKey => aGroupingKey === groupingKey)
-      .length > 0;
+  serviceExist(groupingKey, hostName) {
+    return this.serviceNetwork.find({ groupingKey, 'metrics.hostname': hostName }).length > 0;
   }
 
   listen() {
