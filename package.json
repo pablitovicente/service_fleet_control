@@ -1,0 +1,36 @@
+{
+  "name": "service_fleet_control",
+  "version": "0.3.3",
+  "description": "This modules enables your services to auto anounce themselves to a master service. The idea is for you to know what services are up, down, its status and how can they be reached by your master service. ",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha tests/**/*.js",
+    "lint": "./node_modules/eslint/bin/eslint.js ."
+  },
+  "keywords": [
+    "Service Health Status",
+    "Service Discovery"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pablitovicente/kaos_control"
+  },
+  "author": "Pablo Vicente <ipassedthevoightkampff@gmail.com>",
+  "license": "GPLv3",
+  "dependencies": {
+    "debug": "3.1.0",
+    "lodash": "4.17.5",
+    "lokijs": "1.5.3"
+  },
+  "devDependencies": {
+    "chai": "4.1.2",
+    "eslint": "4.18.2",
+    "eslint-config-airbnb": "16.1.0",
+    "eslint-config-airbnb-base": "12.1.0",
+    "eslint-plugin-import": "2.9.0",
+    "eslint-plugin-jsx-a11y": "6.0.3",
+    "eslint-plugin-react": "7.7.0",
+    "express": "4.16.2",
+    "mocha": "5.0.1"
+  }
+}

@@ -1,0 +1,45 @@
+# Logs
+*.log
+npm-debug.log*
+*.zip
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# real configurations
+.env
+
+# Coverage directory used by tools like istanbul
+coverage
+
+# Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
+.grunt
+
+# node-waf configuration
+.lock-wscript
+
+# Compiled binary addons (http://nodejs.org/api/addons.html)
+build/Release
+
+# Dependency directories
+node_modules
+jspm_packages
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+.idea
+.vscode
+.nyc_output
