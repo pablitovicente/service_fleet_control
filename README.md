@@ -16,12 +16,12 @@ npm i -save service_fleet_control
 * ~~Better Error Handling~~
 * 'Garbage collect' clients that do not report in time
 * Refactor for solving the poor composition implementation
-* Expose a REST API to obtain the data
+* ~~Expose a REST API to obtain the data~~ Now exposes a method for the implementer to use
 * Add validation schemas for both Service and Registry
 * Drop JSON for Protocol Buffers
 * Add more test coverage
 * Refactor classes using better patterns
-* Add usage examples
+* ~~Add usage examples~~
 
 ## General Concept
 

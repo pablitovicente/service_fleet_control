@@ -50,7 +50,7 @@ class Control {
       this.startRegistryService();
       debug(`Starting Registry. Listening for clients on "${this.registryHost}:${this.registryPort}"`);
     } else {
-      this.configIsGood = false;
+      this.configIsGood = false; // eslint-disable-next-line no-console
       console.log('Service Fleet Control misconfiguration "role" should either be "server" or "client"');
     }
   }

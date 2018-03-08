@@ -16,7 +16,7 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 const debug = require('debug')('SFC_registry');
-const { map, has, findIndex } = require('lodash');
+const { groupBy } = require('lodash');
 
 class Registry {
   constructor(net, loki, configuration) {
@@ -48,7 +48,7 @@ class Registry {
   }
 
   getServiceFleetStatus() {
-    return this.serviceNetwork.find();
+    return groupBy(this.serviceNetwork.find(), aService => aService.groupingKey);
   }
 
   serviceExist(groupingKey, hostName) {
