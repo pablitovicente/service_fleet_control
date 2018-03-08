@@ -58,7 +58,7 @@ class Client {
         time: new Date(),
       },
     };
-    
+
     debug(JSON.stringify(message, null, 2));
     this.socket.write(JSON.stringify(message), () => {
       this.disconnect();

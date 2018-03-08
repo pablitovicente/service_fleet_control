@@ -26,40 +26,43 @@ const Registry = require('./libs/registry');
 const debug = require('debug')('SFC');
 
 class Control {
-  constructor(configuration) {
-    Object.assign(this, configuration);
-    this.configuration = configuration;
-    this.metrics = new Metrics({ os, updateIntervalSeconds: configuration.updateIntervalSeconds, hostName: configuration.hostName });
+  constructor(config) {
+    this.config = config;
+    this.metrics = new Metrics({
+      os,
+      updateIntervalSeconds: this.config.updateIntervalSeconds,
+      hostName: this.config.hostName,
+    });
     this.registryService = null;
-    this.configurationIsGood = false;
+    this.configIsGood = false;
   }
 
-  // Starts the client or server depending on the configuration
+  // Starts the client or server depending on the config
   init() {
     if (this.isService()) {
       debug('Running Client');
-      this.configurationIsGood = true;
-      this.netClient = new Client(net, this.metrics, this.configuration);
+      this.configIsGood = true;
+      this.netClient = new Client(net, this.metrics, this.config);
       this.startClient();
     } else if (this.isRegistry()) {
-      this.registryService = new Registry(net, loki, this.configuration);
-      this.configurationIsGood = true;
+      this.registryService = new Registry(net, loki, this.config);
+      this.configIsGood = true;
       this.startRegistryService();
       debug(`Starting Registry. Listening for clients on "${this.registryHost}:${this.registryPort}"`);
     } else {
-      this.configurationIsGood = false;
+      this.configIsGood = false;
       console.log('Service Fleet Control misconfiguration "role" should either be "server" or "client"');
     }
   }
 
   // Checks if the module is acting as a client
   isService() {
-    return this.role === 'service';
+    return this.config.role === 'service';
   }
 
   // Checks if the module is acting as a server keeping track of clients
   isRegistry() {
-    return this.role === 'registry';
+    return this.config.role === 'registry';
   }
 
   startRegistryService() {
@@ -69,16 +72,16 @@ class Control {
   startClient() {
     setInterval(
       () => {
-        this.netClient.connect(this.registryHost, this.registryPort);
+        this.netClient.connect(this.config.registryHost, this.config.registryPort);
         this.netClient.send(
           {
-            serviceName: this.serviceName,
-            groupingKey: this.groupingKey,
+            serviceName: this.config.serviceName,
+            groupingKey: this.config.groupingKey,
           },
           this.metrics,
         );
       },
-      this.updateIntervalSeconds * 1000,
+      this.config.updateIntervalSeconds * 1000,
     );
   }
 }
