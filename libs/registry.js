@@ -26,7 +26,9 @@ class Registry {
     this.connection = null;
     this.totalNumberUpdatesSent = 0;
     this.db = new this.Loki('registry.db');
-    this.serviceNetwork = this.db.addCollection('serviceNetwork');
+    this.serviceNetwork = this.db.addCollection('serviceNetwork', {
+      indices: ['groupingKey', 'metrics.hostname'],
+    });
 
     this.server = net.createServer((socket) => {
       socket.on('data', (data) => {
@@ -71,8 +73,20 @@ class Registry {
   }
 
   updateServiceStatus(serviceUpdate) {
-    this.serviceNetwork.chain().find({ groupingKey: serviceUpdate.groupingKey, 'metrics.hostname': serviceUpdate.metrics.hostname }).remove();
-    this.serviceNetwork.insert(serviceUpdate);
+    const current = this.serviceNetwork.findObject({
+      groupingKey: serviceUpdate.groupingKey,
+      'metrics.hostname': serviceUpdate.metrics.hostname,
+    });
+    
+    if (current != null) {
+      const currentKeys = Object.keys(current);
+      currentKeys.forEach((aKey) => {
+        if (aKey !== 'meta' && aKey !== '$loki') {
+          current[aKey] = serviceUpdate[aKey];
+        }
+      });
+      this.serviceNetwork.update(current);
+    }
   }
 }
 
