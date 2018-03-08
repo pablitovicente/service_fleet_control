@@ -42,7 +42,7 @@ class Control {
     if (this.isService()) {
       debug('Running Client');
       this.configIsGood = true;
-      this.netClient = new Client(net, this.metrics, this.config);
+      this.netClient = new Client(net, this.config, this.metrics);
       this.startClient();
     } else if (this.isRegistry()) {
       this.registryService = new Registry(net, loki, this.config);
@@ -70,19 +70,7 @@ class Control {
   }
 
   startClient() {
-    setInterval(
-      () => {
-        this.netClient.connect(this.config.registryHost, this.config.registryPort);
-        this.netClient.send(
-          {
-            serviceName: this.config.serviceName,
-            groupingKey: this.config.groupingKey,
-          },
-          this.metrics,
-        );
-      },
-      this.config.updateIntervalSeconds * 1000,
-    );
+    this.netClient.start();
   }
 }
 

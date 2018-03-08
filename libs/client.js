@@ -18,8 +18,10 @@
 const debug = require('debug')('SFC_client');
 
 class Client {
-  constructor(net) {
+  constructor(net, config, metrics) {
     this.net = net;
+    this.config = config;
+    this.metrics = metrics;
   }
 
   registerErrorListner() {
@@ -63,6 +65,22 @@ class Client {
     this.socket.write(JSON.stringify(message), () => {
       this.disconnect();
     });
+  }
+
+  start() {
+    setInterval(
+      () => {
+        this.connect(this.config.registryHost, this.config.registryPort);
+        this.send(
+          {
+            serviceName: this.config.serviceName,
+            groupingKey: this.config.groupingKey,
+          },
+          this.metrics,
+        );
+      },
+      this.config.updateIntervalSeconds * 1000,
+    );
   }
 }
 
