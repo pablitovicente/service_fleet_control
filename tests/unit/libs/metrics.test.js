@@ -21,31 +21,19 @@ const chai = require('chai');
 const Metrics = require('../../../libs/metrics');
 
 const { expect } = chai;
-const metrics = new Metrics({ os });
+const metrics = new Metrics({
+  os,
+  updateIntervalSeconds: 1,
+});
 
 describe(`Metrics library construction ${'.'.repeat(100)}`, () => {
   it('Instantiates the Metrics object correctly', (done) => {
     expect(metrics).to.be.instanceof(Metrics);
     done();
   });
-
-  it('Returns a new instance only if one does not exists already', (done) => {
-    done();
-  });
 });
 
 describe(`Metrics library methods ${'.'.repeat(105)}`, () => {
-  it('memoryUsage() returns correct data structure', (done) => {
-    const memUsage = metrics.memoryUsage();
-    expect(memUsage).to.have.all.keys([
-      'rss',
-      'heapTotal',
-      'heapUsed',
-      'external',
-    ]);
-    done();
-  });
-
   it('osInfo() returns correct data structure', (done) => {
     const osInfo = metrics.osInfo();
     expect(osInfo).to.have.all.keys([
@@ -72,6 +60,7 @@ describe(`Metrics library methods ${'.'.repeat(105)}`, () => {
       'numCpus',
       'uptime',
       'user',
+      'updateIntervalSeconds',
     ]);
     done();
   });
