@@ -32,7 +32,16 @@ class Registry {
       socket.on('data', (data) => {
         const clientPacket = JSON.parse(data.toString());
         // Only insert a record if one doesn't exist already.
-        if (!this.serviceExist(clientPacket.payload.groupingKey, clientPacket.payload.metrics.hostname)) this.serviceNetwork.insert(clientPacket.payload);
+        if (!this.serviceExist(clientPacket.payload.groupingKey, clientPacket.payload.metrics.hostname)) {
+          this.serviceNetwork.insert(clientPacket.payload);
+        } else {
+          try {
+            this.updateServiceStatus(clientPacket.payload);
+          } catch (err) {
+            debug('Error updating record');
+            debug(err);
+          }
+        }
       });
 
       // Register a listener for disconnections so we can keep the "user" list updated
@@ -47,10 +56,6 @@ class Registry {
     });
   }
 
-  getServiceFleetStatus() {
-    return groupBy(this.serviceNetwork.find(), aService => aService.groupingKey);
-  }
-
   serviceExist(groupingKey, hostName) {
     return this.serviceNetwork.find({ groupingKey, 'metrics.hostname': hostName }).length > 0;
   }
@@ -59,6 +64,15 @@ class Registry {
     this.server.listen({ port: this.registryPort }, () => {
       debug(`Registry listening in: ${this.server.address()}`);
     });
+  }
+
+  getServiceFleetStatus() {
+    return groupBy(this.serviceNetwork.find(), aService => aService.groupingKey);
+  }
+
+  updateServiceStatus(serviceUpdate) {
+    this.serviceNetwork.chain().find({ groupingKey: serviceUpdate.groupingKey, 'metrics.hostname': serviceUpdate.metrics.hostname }).remove();
+    this.serviceNetwork.insert(serviceUpdate);
   }
 }
 
