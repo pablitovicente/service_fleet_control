@@ -1,6 +1,4 @@
-[![Build Status](https://travis-ci.org/pablitovicente/kaos_control.svg?branch=master)](https://travis-ci.org/pablitovicente/kaos_control)
-
-# Service Fleet Control
+# Service Fleet Control [![Build Status](https://travis-ci.org/pablitovicente/kaos_control.svg?branch=master)](https://travis-ci.org/pablitovicente/kaos_control)
 
 ALPHA STILL IN DEVELOPMENT! 
 
