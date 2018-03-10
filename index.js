@@ -48,7 +48,7 @@ class Control {
       this.registryService = new Registry(net, loki, this.config);
       this.configIsGood = true;
       this.startRegistryService();
-      debug(`Starting Registry. Listening for clients on "${this.registryHost}:${this.registryPort}"`);
+      debug(`Starting Registry. Listening for clients on "${this.config.registryHost}:${this.config.registryPort}"`);
     } else {
       this.configIsGood = false; // eslint-disable-next-line no-console
       console.log('Service Fleet Control misconfiguration "role" should either be "server" or "client"');

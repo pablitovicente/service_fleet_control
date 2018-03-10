@@ -37,30 +37,36 @@ class Registry {
   createServer(net) {
     this.server = net.createServer((socket) => {
       socket.on('data', (data) => {
-        const clientPacket = JSON.parse(data.toString());
-        // Only insert a record if one doesn't exist already.
-        if (!this.serviceExist(clientPacket.payload.groupingKey, clientPacket.payload.metrics.hostname)) {
-          this.serviceNetwork.insert(clientPacket.payload);
-        } else {
-          try {
-            this.updateServiceStatus(clientPacket.payload);
-          } catch (err) {
-            debug('Error updating record');
-            debug(err);
-          }
-        }
+        this.processPacket(data);
       });
 
       // Register a listener for disconnections so we can keep the "user" list updated
-      socket.on('end', () => {
-        this.totalNumberUpdatesSent += 1;
-        debug(this.getServiceFleetStatus());
-        debug('#'.repeat(220));
-        debug('Total Requests: ', this.totalNumberUpdatesSent);
-        debug('#'.repeat(220));
-        debug('Client Disconected');
-      });
+      socket.on('end', () => this.clientEndedConnection());
     });
+  }
+
+  processPacket(data) {
+    const clientPacket = JSON.parse(data.toString());
+    // Only insert a record if one doesn't exist already.
+    if (!this.serviceExist(clientPacket.payload.groupingKey, clientPacket.payload.metrics.hostname)) {
+      this.serviceNetwork.insert(clientPacket.payload);
+    } else {
+      try {
+        this.updateServiceStatus(clientPacket.payload);
+      } catch (err) {
+        debug('Error updating record');
+        debug(err);
+      }
+    }
+  }
+
+  clientEndedConnection() {
+    this.totalNumberUpdatesSent += 1;
+    debug(this.getServiceFleetStatus());
+    debug('#'.repeat(220));
+    debug('Total Requests: ', this.totalNumberUpdatesSent);
+    debug('#'.repeat(220));
+    debug('Client Disconected');
   }
 
   setupRegistryDB() {
