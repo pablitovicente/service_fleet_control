@@ -25,7 +25,7 @@ const app = express();
 // Create the configuration
 const myConfig = {
   serviceName: 'Authentication', // A name to easily identify the service being monitored
-  updateIntervalSeconds: 2, // Time interval, in seconds, between updates
+  updateIntervalSeconds: 1, // Time interval, in seconds, between updates
   role: 'service', // Role can either be 'service' or 'registry'
   groupingKey: 'AuthenticationService', // A grouping key so all the services of the same type are hold together
   registryHost: 'localhost', // The host against to which the service should send updates/register

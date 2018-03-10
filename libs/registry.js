@@ -25,11 +25,16 @@ class Registry {
     this.Loki = loki;
     this.connection = null;
     this.totalNumberUpdatesSent = 0;
-    this.db = new this.Loki('registry.db');
-    this.serviceNetwork = this.db.addCollection('serviceNetwork', {
-      indices: ['groupingKey', 'metrics.hostname'],
-    });
+    this.db = null;
+    this.serviceNetwork = null;
+    this.server = null;
+    
+    this.setupRegistryDB();
+    this.setupRegistryCollection();
+    this.createServer(net);
+  }
 
+  createServer(net) {
     this.server = net.createServer((socket) => {
       socket.on('data', (data) => {
         const clientPacket = JSON.parse(data.toString());
@@ -55,7 +60,21 @@ class Registry {
         debug('#'.repeat(220));
         debug('Client Disconected');
       });
+    });   
+  }
+
+  setupRegistryDB() {
+    this.createDb(this.Loki, 'registry.db');
+  }
+
+  setupRegistryCollection() {
+    this.serviceNetwork = this.db.addCollection('serviceNetwork', {
+      indices: ['groupingKey', 'metrics.hostname'],
     });
+  }
+
+  createDb(Loki, dbName) {
+    this.db = new Loki(dbName);
   }
 
   serviceExist(groupingKey, hostName) {
@@ -77,7 +96,7 @@ class Registry {
       groupingKey: serviceUpdate.groupingKey,
       'metrics.hostname': serviceUpdate.metrics.hostname,
     });
-    
+
     if (current != null) {
       const currentKeys = Object.keys(current);
       currentKeys.forEach((aKey) => {
