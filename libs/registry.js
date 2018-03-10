@@ -121,13 +121,13 @@ class Registry {
     const now = new Date().getTime() / 1000;
     const db = this.serviceNetwork.find();
     db.forEach((aRecord) => {
-      // Calculate when the service should have reported. Give time for (big) network lag 
+      // Calculate when the service should have reported. Give time for (big) network lag
       const shouldHaveReporterd = (new Date(aRecord.time) / 1000) + (aRecord.metrics.updateIntervalSeconds + 1.5);
       const reportInterval = aRecord.metrics.updateIntervalSeconds;
       debug(
         '|Service: ', aRecord.serviceName, '|host: ', aRecord.metrics.hostname, '|shouldHaveReported: ', shouldHaveReporterd,
         '|now: ', now, '|reportInterval: ', reportInterval, '|offline: ', (now - shouldHaveReporterd) > 0,
-        '|Next update in: ', (now - shouldHaveReporterd)
+        '|Next update in: ', (now - shouldHaveReporterd),
       );
       if (now - shouldHaveReporterd > 0) {
         debug(aRecord.serviceName, aRecord.metrics.hostname, ' is offline');
