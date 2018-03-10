@@ -31,7 +31,11 @@ const myConfig = {
   registryHost: 'localhost', // The host against to which the service should send updates/register
   registryPort: 50000, // The port against to which the service should send updates/register
   hostName: 'fake.host.co',
+  makeClientThrow: false,
 };
+// ^^^ If makeClientThrow === true client will throw an error and stop app execution
+// if false it will show a message and let your app run. This behaviour might change
+// once code is stable!
 
 // Create an instance
 const control = new Control(myConfig);

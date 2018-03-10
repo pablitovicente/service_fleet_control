@@ -15,8 +15,8 @@ npm i -save service_fleet_control
 * ~~Expose a REST API to obtain the data~~ Now exposes a method for the implementer to use
 * ~~Add usage examples~~
 * ~~'Garbage collect' clients that do not report in time~~ Offline hosts are now marked as offline via status property 'online'
+* ~~Error Handling!~~ Configurable net errors setup to either throw or just show a message
 * Encryption
-* Error Handling!
 * Add more test coverage
 * Refactor for solving the poor composition/DI implementations
 * Refactor classes using better patterns

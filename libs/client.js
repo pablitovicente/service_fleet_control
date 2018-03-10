@@ -26,8 +26,12 @@ class Client {
 
   registerErrorListner() {
     this.socket.on('error', (error) => {
-      debug('Socket Error:');
-      debug(error);
+      if (this.config.makeClientThrow) {
+        throw new Error(JSON.stringify(error));
+      } else {
+        debug('Something is wrong with the configuration or the environtment, is the registry up?');
+        debug(error);
+      }
     });
   }
 

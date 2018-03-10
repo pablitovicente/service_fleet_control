@@ -28,7 +28,11 @@ const myConfig = {
   groupingKey: 'AuthenticationService', // A grouping key so all the services of the same type are hold together
   registryHost: 'localhost', // The host against to which the service should send updates/register
   registryPort: 50000, // The port against to which the service should send updates/register
+  makeServerThrow: false,
 };
+// ^^^ If makeServerThrow === true server will throw an error and stop app execution
+// if false it will show a message and let your app run. This behaviour might change
+// once code is stable!
 
 const control = new Control(myConfig);
 

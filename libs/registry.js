@@ -32,6 +32,7 @@ class Registry {
     this.setupRegistryDB();
     this.setupRegistryCollection();
     this.createServer(net);
+    this.registerServerErrorListener();
   }
 
   createServer(net) {
@@ -43,6 +44,24 @@ class Registry {
       // Register a listener for disconnections so we can keep the "user" list updated
       socket.on('end', () => this.clientEndedConnection());
     });
+  }
+
+  registerServerErrorListener() {
+    this.server.on('error', error => this.handleServerError(error));
+  }
+
+  handleServerError(error) {
+    if (this.makeServerThrow) {
+      throw new Error(JSON.stringify(error));
+    } else {
+      debug('Something is wrong with the configuration or the environtment.....');
+      debug(`Registry Server: ${error}!`);
+      debug('^^^ Your configuration asked me not to throw but I will not work with this configuration!!!!!!!!!!');
+    }
+  }
+
+  listen() {
+    this.server.listen({ port: this.registryPort }, () => {});
   }
 
   processPacket(data) {
@@ -88,12 +107,6 @@ class Registry {
 
   serviceExist(groupingKey, hostName) {
     return this.serviceNetwork.find({ groupingKey, 'metrics.hostname': hostName }).length > 0;
-  }
-
-  listen() {
-    this.server.listen({ port: this.registryPort }, () => {
-      debug(`Registry listening in: ${this.server.address().address}:${this.server.address().port}`);
-    });
   }
 
   getServiceFleetStatus() {
