@@ -49,9 +49,11 @@ class Registry {
     const clientPacket = JSON.parse(data.toString());
     // Only insert a record if one doesn't exist already.
     if (!this.serviceExist(clientPacket.payload.groupingKey, clientPacket.payload.metrics.hostname)) {
+      clientPacket.payload.online = true;
       this.serviceNetwork.insert(clientPacket.payload);
     } else {
       try {
+        clientPacket.payload.online = true;
         this.updateServiceStatus(clientPacket.payload);
       } catch (err) {
         debug('Error updating record');
@@ -67,6 +69,7 @@ class Registry {
     debug('Total Requests: ', this.totalNumberUpdatesSent);
     debug('#'.repeat(220));
     debug('Client Disconected');
+    this.markOfflineServices();
   }
 
   setupRegistryDB() {
@@ -89,7 +92,7 @@ class Registry {
 
   listen() {
     this.server.listen({ port: this.registryPort }, () => {
-      debug(`Registry listening in: ${this.server.address()}`);
+      debug(`Registry listening in: ${this.server.address().address}:${this.server.address().port}`);
     });
   }
 
@@ -112,6 +115,26 @@ class Registry {
       });
       this.serviceNetwork.update(current);
     }
+  }
+
+  markOfflineServices() {
+    const now = new Date().getTime() / 1000;
+    const db = this.serviceNetwork.find();
+    db.forEach((aRecord) => {
+      // Calculate when the service should have reported. Give time for (big) network lag 
+      const shouldHaveReporterd = (new Date(aRecord.time) / 1000) + (aRecord.metrics.updateIntervalSeconds + 1.5);
+      const reportInterval = aRecord.metrics.updateIntervalSeconds;
+      debug(
+        '|Service: ', aRecord.serviceName, '|host: ', aRecord.metrics.hostname, '|shouldHaveReported: ', shouldHaveReporterd,
+        '|now: ', now, '|reportInterval: ', reportInterval, '|offline: ', (now - shouldHaveReporterd) > 0,
+        '|Next update in: ', (now - shouldHaveReporterd)
+      );
+      if (now - shouldHaveReporterd > 0) {
+        debug(aRecord.serviceName, aRecord.metrics.hostname, ' is offline');
+        aRecord.online = false;
+        this.updateServiceStatus(aRecord);
+      }
+    });
   }
 }
 

@@ -12,16 +12,17 @@ npm i -save service_fleet_control
 
 ## @TODO before this can be used
 * ~~Implement Registry Server~~
-* Encryption
-* ~~Better Error Handling~~
-* 'Garbage collect' clients that do not report in time
-* Refactor for solving the poor composition implementation
 * ~~Expose a REST API to obtain the data~~ Now exposes a method for the implementer to use
+* ~~Add usage examples~~
+* ~~'Garbage collect' clients that do not report in time~~ Offline hosts are now marked as offline via status property 'online'
+* Encryption
+* Error Handling!
+* Add more test coverage
+* Refactor for solving the poor composition/DI implementations
+* Refactor classes using better patterns
 * Add validation schemas for both Service and Registry
 * Drop JSON for Protocol Buffers
-* Add more test coverage
-* Refactor classes using better patterns
-* ~~Add usage examples~~
+
 
 ## General Concept
 
