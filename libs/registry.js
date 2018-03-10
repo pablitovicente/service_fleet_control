@@ -28,7 +28,7 @@ class Registry {
     this.db = null;
     this.serviceNetwork = null;
     this.server = null;
-    
+
     this.setupRegistryDB();
     this.setupRegistryCollection();
     this.createServer(net);
@@ -60,7 +60,7 @@ class Registry {
         debug('#'.repeat(220));
         debug('Client Disconected');
       });
-    });   
+    });
   }
 
   setupRegistryDB() {
