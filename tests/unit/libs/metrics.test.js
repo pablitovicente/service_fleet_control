@@ -26,47 +26,44 @@ const metrics = new Metrics({
   updateIntervalSeconds: 1,
 });
 
-describe(`Metrics library construction ${'.'.repeat(100)}`, () => {
-  it('Instantiates the Metrics object correctly', (done) => {
-    expect(metrics).to.be.instanceof(Metrics);
-    done();
+describe('Metrics Class', () => {
+  describe('Metrics library construction', () => {
+    it('Instantiates the Metrics object correctly', (done) => {
+      expect(metrics).to.be.instanceof(Metrics);
+      done();
+    });
+  });
+
+  describe('Metrics library methods', () => {
+    it('osInfo() returns correct data structure', (done) => {
+      const osInfo = metrics.osInfo();
+      expect(osInfo).to.have.all.keys([
+        'freemem',
+        'hostname',
+        'loadadv',
+        'numCpus',
+        'uptime',
+        'user',
+      ]);
+      done();
+    });
+
+    it('kpis() returns correct data structure', (done) => {
+      const kpis = metrics.kpis();
+      expect(kpis).to.have.all.keys([
+        'external',
+        'heapTotal',
+        'heapUsed',
+        'rss',
+        'freemem',
+        'hostname',
+        'loadadv',
+        'numCpus',
+        'uptime',
+        'user',
+        'updateIntervalSeconds',
+      ]);
+      done();
+    });
   });
 });
-
-describe(`Metrics library methods ${'.'.repeat(105)}`, () => {
-  it('osInfo() returns correct data structure', (done) => {
-    const osInfo = metrics.osInfo();
-    expect(osInfo).to.have.all.keys([
-      'freemem',
-      'hostname',
-      'loadadv',
-      'numCpus',
-      'uptime',
-      'user',
-    ]);
-    done();
-  });
-
-  it('kpis() returns correct data structure', (done) => {
-    const kpis = metrics.kpis();
-    expect(kpis).to.have.all.keys([
-      'external',
-      'heapTotal',
-      'heapUsed',
-      'rss',
-      'freemem',
-      'hostname',
-      'loadadv',
-      'numCpus',
-      'uptime',
-      'user',
-      'updateIntervalSeconds',
-    ]);
-    done();
-  });
-});
-
-
-// console.log(metrics.osInfo());
-// console.log('#'.repeat(220));
-// console.log(metrics.kpis());

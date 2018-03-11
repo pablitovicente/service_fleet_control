@@ -37,8 +37,13 @@ class Store {
     return this.collection.find();
   }
 
+  getOne(criteria) {
+    return this.collection.findOne(criteria);
+  }
+
   insert(record) {
-    this.collection.insert(record);
+    const saved = this.collection.insert(record);
+    return saved;
   }
 
   updateExisting(serviceUpdate) {
