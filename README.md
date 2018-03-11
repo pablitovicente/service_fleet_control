@@ -1,10 +1,12 @@
 # Service Fleet Control [![Build Status](https://travis-ci.org/pablitovicente/kaos_control.svg?branch=master)](https://travis-ci.org/pablitovicente/kaos_control) [![Maintainability](https://api.codeclimate.com/v1/badges/55329212248ff0e5c5c4/maintainability)](https://codeclimate.com/github/pablitovicente/kaos_control/maintainability)
 
-ALPHA STILL IN DEVELOPMENT! - NON SECURE NET CLIENT/SERVER HAS BEEN DEPRECATED CHECK TEH NEW EXAMPLES!
-
 > A module for service discovery and health status check for your fleet of microservices
 > Included it in your services and implement a registry server using this module so you can 
 > have information about the status of all of your services.
+
+* ALPHA STILL IN DEVELOPMENT! 
+* NON SECURE NET CLIENT/SERVER HAS BEEN DEPRECATED CHECK THE NEW EXAMPLES!
+
 
 ## Install
 
