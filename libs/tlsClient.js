@@ -15,7 +15,7 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-const debug = require('debug')('SFC_secure_client');
+const debug = require('debug')('SFC_client');
 
 class Client {
   constructor(tls, fs, config, metrics) {
@@ -34,6 +34,12 @@ class Client {
 
   usingSelfSignedCerts() {
     if (this.config.useSelfSignedCerts === true) {
+      // eslint-disable-next-line no-console
+      console.log(`
+      +-----------------------------------------------------------------------------------------------+
+      | WARNING YOU ARE SETTING YOUR OWN CA MAKE SURE YOU ARE IN DEV AND YOU KNOW WHAT YOU ARE DOING! |
+      +-----------------------------------------------------------------------------------------------+
+      `);
       // Necessary only if the server uses the self-signed certificate
       this.tlsOptions.ca = this.fs.readFileSync(this.config.ca);
     }

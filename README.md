@@ -1,6 +1,6 @@
 # Service Fleet Control [![Build Status](https://travis-ci.org/pablitovicente/kaos_control.svg?branch=master)](https://travis-ci.org/pablitovicente/kaos_control) [![Maintainability](https://api.codeclimate.com/v1/badges/55329212248ff0e5c5c4/maintainability)](https://codeclimate.com/github/pablitovicente/kaos_control/maintainability)
 
-ALPHA STILL IN DEVELOPMENT! 
+ALPHA STILL IN DEVELOPMENT! - NON SECURE NET CLIENT/SERVER HAS BEEN DEPRECATED CHECK TEH NEW EXAMPLES!
 
 > A module for service discovery and health status check for your fleet of microservices
 > Included it in your services and implement a registry server using this module so you can 
@@ -19,7 +19,7 @@ npm i -save service_fleet_control
 * ~~Mark offline hosts  via status property 'online'~~
 * ~~Error Handling for net/tls!~~
 * ~~Encryption~~
-* Remove code duplication after TLS support added
+* ~~Remove code duplication after TLS support added~~
 * Extract DB methods to its own class
 * Add more test coverage
 * Refactor for solving the poor composition/DI implementations
@@ -38,7 +38,7 @@ npm i -save service_fleet_control
 
 ## Usage
 
-See ./examples/ folder.
+See ./examples/ folder to check how to use this module for your services (Full app example will be created in the comming weeks)
 
 ## Debugging
 This module uses the Debug module for debugging for example for developement start the apps with
@@ -51,7 +51,6 @@ Namespaces are:
 * SFC for main module
 * SFC_registry for the registry lib
 * SFC_client for the client lib
-* SFC_secure_client for the TLS client lib
 
 ## Future Features!
 * Allow Services to comunicate its API via swagger or graphql

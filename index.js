@@ -16,14 +16,11 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 const os = require('os');
-const net = require('net');
 const tls = require('tls');
 const fs = require('fs');
 const loki = require('lokijs');
 
 const Metrics = require('./libs/metrics');
-const Client = require('./libs/client');
-const Registry = require('./libs/registry');
 const TLSRegistry = require('./libs/tlsRegistry');
 const TLSClient = require('./libs/tlsClient');
 
@@ -43,40 +40,20 @@ class Control {
 
   // Starts the client or server depending on the config
   init() {
-    if (this.isService()) {
-      debug('Running Service');
-      this.configIsGood = true;
-      this.netClient = new Client(net, this.config, this.metrics);
-      this.startClient();
-    } else if (this.isTLSService()) {
+    if (this.isTLSService()) {
       debug('Running TLS Service');
       this.configIsGood = true;
       this.tlsClient = new TLSClient(tls, fs, this.config, this.metrics);
       this.startTLSClient();
-    } else if (this.isRegistry()) {
-      this.registryService = new Registry(net, loki, this.config);
-      this.configIsGood = true;
-      this.startRegistryService();
-      debug(`Starting Registry. Listening for clients on "${this.config.registryHost}:${this.config.registryPort}"`);
     } else if (this.isTLSRegistry()) {
       debug('Running TLS Server');
       this.registryService = new TLSRegistry(tls, loki, fs, this.config);
       this.configIsGood = true;
-      this.startRegistryService();
+      this.startTlSRegistryService();
     } else {
       this.configIsGood = false; // eslint-disable-next-line no-console
       console.log('Service Fleet Control misconfiguration "role" should either be "server" or "client"');
     }
-  }
-
-  // Checks if the module is acting as a client
-  isService() {
-    return this.config.role === 'service';
-  }
-
-  // Checks if the module is acting as a server keeping track of clients
-  isRegistry() {
-    return this.config.role === 'registry';
   }
 
   isTLSService() {
@@ -87,16 +64,8 @@ class Control {
     return this.config.role === 'tlsRegistry';
   }
 
-  startRegistryService() {
-    this.registryService.listen();
-  }
-
   startTlSRegistryService() {
     this.registryService.listen();
-  }
-
-  startClient() {
-    this.netClient.start();
   }
 
   startTLSClient() {

@@ -30,6 +30,7 @@ const myConfig = {
   registryPort: 50000, // The port against to which the service should send updates/register
   certFile: `${__dirname}/../../tests/certs/server/server.crt`,
   certKeyFile: `${__dirname}/../../tests/certs/server/server.key`,
+  useSelfSignedCerts: true,
   ca: `${__dirname}/../../tests/certs/ca/ca.crt`, // Only for self-signed-certs this is required
   makeServerThrow: false,
 };

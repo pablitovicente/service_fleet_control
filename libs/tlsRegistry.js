@@ -34,16 +34,29 @@ class TlSRegistry {
     this.ca = null;
 
     this.readCerts();
+    this.usingSelfSignedCerts();
     this.setupRegistryDB();
     this.setupRegistryCollection();
-    this.createServer(tls);
+    this.createServer();
     this.registerServerErrorListener();
+  }
+
+  usingSelfSignedCerts() {
+    if (this.config.useSelfSignedCerts === true) {
+      // eslint-disable-next-line no-console
+      console.log(`
+      +-----------------------------------------------------------------------------------------------+
+      | WARNING YOU ARE SETTING YOUR OWN CA MAKE SURE YOU ARE IN DEV AND YOU KNOW WHAT YOU ARE DOING! |
+      +-----------------------------------------------------------------------------------------------+
+      `);
+      // Necessary only if the server uses the self-signed certificate
+      this.ca = this.fs.readFileSync(this.config.ca);
+    }
   }
 
   readCerts() {
     this.key = this.fs.readFileSync(this.config.certKeyFile);
     this.cert = this.fs.readFileSync(this.config.certFile);
-    this.ca = this.fs.readFileSync(this.config.ca);
   }
 
   createServer() {
