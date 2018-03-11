@@ -37,7 +37,7 @@ class Store {
     return this.collection.find();
   }
 
-  insertRecord(record) {
+  insert(record) {
     this.collection.insert(record);
   }
 

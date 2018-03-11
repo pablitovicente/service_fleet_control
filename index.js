@@ -58,7 +58,7 @@ class Control {
       this.startTLSClient();
     } else if (this.isTLSRegistry()) {
       debug('Running TLS Server');
-      this.registryService = new TLSRegistry(tls, loki, fs, this.config);
+      this.registryService = new TLSRegistry(tls, loki, fs, this.config, this.store);
       this.configIsGood = true;
       this.startTlSRegistryService();
     } else {
