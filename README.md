@@ -24,7 +24,8 @@ npm i -save service_fleet_control
 * ~~Error Handling for net/tls!~~
 * ~~Encryption~~
 * ~~Remove code duplication after TLS support added~~
-* Extract DB methods to its own class
+* ~~Extract DB methods to its own class~~
+* Make TLS Client Certs Optional
 * Add more test coverage
 * Refactor for solving the poor composition/DI implementations
 * Refactor classes using better patterns
