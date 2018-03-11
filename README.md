@@ -3,6 +3,8 @@
 ALPHA STILL IN DEVELOPMENT! 
 
 > A module for service discovery and health status check for your fleet of microservices
+> Included it in your services and implement a registry server using this module so you can 
+> have information about the status of all of your services.
 
 ## Install
 
@@ -12,11 +14,13 @@ npm i -save service_fleet_control
 
 ## @TODO before this can be used
 * ~~Implement Registry Server~~
-* ~~Expose a REST API to obtain the data~~ Now exposes a method for the implementer to use
+* ~~Method for retreiving the data~~
 * ~~Add usage examples~~
-* ~~'Garbage collect' clients that do not report in time~~ Offline hosts are now marked as offline via status property 'online'
-* ~~Error Handling!~~ Configurable net errors setup to either throw or just show a message
-* Encryption
+* ~~Mark offline hosts  via status property 'online'~~
+* ~~Error Handling for net/tls!~~
+* ~~Encryption~~
+* Remove code duplication after TLS support added
+* Extract DB methods to its own class
 * Add more test coverage
 * Refactor for solving the poor composition/DI implementations
 * Refactor classes using better patterns
@@ -47,6 +51,7 @@ Namespaces are:
 * SFC for main module
 * SFC_registry for the registry lib
 * SFC_client for the client lib
+* SFC_secure_client for the TLS client lib
 
 ## Future Features!
 * Allow Services to comunicate its API via swagger or graphql
@@ -56,6 +61,10 @@ Namespaces are:
 * Please leave feedback and ideas in its Github Issues Section!
 * Ideas and Collaborators welcome!
 * If this is useful for you donate to an Environmental Organization or Local School needing resources :)
+
+# Credits
+* [Heziode](https://github.com/Heziode) for the best [script](https://github.com/Heziode/Simple-TLS-Client-Server-with-Node.js) for generating certificates for client/server.
+* The local 'Pizza Dev Team' for inspiring me to learn more.
 
 ## License
 
