@@ -19,16 +19,27 @@ const os = require('os');
 const tls = require('tls');
 const fs = require('fs');
 const loki = require('lokijs');
+const { groupBy } = require('lodash');
 
 const Metrics = require('./libs/metrics');
 const TLSRegistry = require('./libs/tlsRegistry');
 const TLSClient = require('./libs/tlsClient');
+const Store = require('./libs/store');
 
 const debug = require('debug')('SFC');
 
 class Control {
   constructor(config) {
     this.config = config;
+    this.store = new Store(
+      {
+        dbName: 'registry.db',
+        dbCollection: 'serviceNetwork',
+      },
+      loki,
+      groupBy,
+    );
+
     this.metrics = new Metrics({
       os,
       updateIntervalSeconds: this.config.updateIntervalSeconds,
