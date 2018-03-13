@@ -26,10 +26,17 @@ class Client {
     this.tlsOptions = {
       hostname: this.config.registryHost,
       port: this.config.registryPort,
-      key: this.fs.readFileSync(this.config.clientKey),
-      cert: this.fs.readFileSync(this.config.clientCert),
     };
     this.usingSelfSignedCerts();
+    this.clientShouldUseCerts();
+  }
+
+  clientShouldUseCerts() {
+    debug('Service configured to send client certificates');
+    if (this.config.clientShouldUseCerts === true) {
+      this.tlsOptions.key = this.fs.readFileSync(this.config.clientKey);
+      this.tlsOptions.cert = this.fs.readFileSync(this.config.clientCert);
+    }
   }
 
   usingSelfSignedCerts() {

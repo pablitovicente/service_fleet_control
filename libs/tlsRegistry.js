@@ -29,9 +29,12 @@ class TlSRegistry {
     this.cert = null;
     this.key = null;
     this.ca = null;
+    this.serverConfig = null;
 
     this.readCerts();
     this.usingSelfSignedCerts();
+    this.setServerOptions();
+    this.shouldServerRequestClientCerts();
     this.createServer();
     this.registerServerErrorListener();
   }
@@ -53,15 +56,24 @@ class TlSRegistry {
     this.key = this.fs.readFileSync(this.config.certKeyFile);
     this.cert = this.fs.readFileSync(this.config.certFile);
   }
+  shouldServerRequestClientCerts() {
+    if (this.config.shouldServerRequestClientCerts === true) {
+      debug('Registry will not require clients to send certificates');
+      this.serverConfig.requestCert = true;
+    }
+  }
+
+  setServerOptions() {
+    this.serverConfig = {
+      key: this.key,
+      cert: this.cert,
+      ca: this.ca,
+    };
+  }
 
   createServer() {
     this.server = this.tls.createServer(
-      {
-        key: this.key,
-        cert: this.cert,
-        ca: this.ca,
-        requestCert: true,
-      },
+      this.serverConfig,
       (socket) => {
         socket.on('data', (data) => {
           this.processPacket(data);

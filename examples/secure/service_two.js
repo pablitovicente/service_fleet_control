@@ -35,6 +35,7 @@ const myConfig = {
   ca: `${__dirname}/../../tests/certs/ca/ca.crt`,
   useSelfSignedCerts: true,
   makeClientThrow: false,
+  clientShouldUseCerts: false, // If true the registry should have requestCert set to true
 };
 // ^^^ If makeClientThrow === true client will throw an error and stop app execution
 // if false it will show a message and let your app run. This behaviour might change

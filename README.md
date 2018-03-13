@@ -5,6 +5,10 @@
 > A module for service discovery and health status check for your fleet of microservices
 > Included it in your services and implement a registry server using this module so you can 
 > have information about the status of all of your services.
+>
+> You only need to configure the module in your clients and you can know at any time what
+> services are up, in what host, what are the basic OS metrics what your NodeJS service 
+> memory usage.
 
 * ALPHA STILL IN DEVELOPMENT! 
 * NON SECURE NET CLIENT/SERVER HAS BEEN DEPRECATED CHECK THE NEW EXAMPLES!
@@ -25,11 +29,13 @@ npm i -save service_fleet_control
 * ~~Encryption~~
 * ~~Remove code duplication after TLS support added~~
 * ~~Extract DB methods to its own class~~
-* Make TLS Client Certs Optional
+* ~~Make TLS Client Certs Optional~~
+* Don't depend on data arrival to registry for refreshing status. Update via interval.
 * Add more test coverage
 * Refactor for solving the poor composition/DI implementations
 * Refactor classes using better patterns
 * Add validation schemas for both Service and Registry
+* Create a full sample implementation
 * Drop JSON for Protocol Buffers
 
 
@@ -43,7 +49,9 @@ npm i -save service_fleet_control
 
 ## Usage
 
-See ./examples/ folder to check how to use this module for your services (Full app example will be created in the comming weeks)
+* See ./examples/ folder to check how to use this module for your services (Full app example will be created in the comming weeks)
+* The examples have a very low update interval in a real world scenario you will probably check less often than a second
+* Although traffic is encrypted you should never open services ports until they are mature enough so you should use your internal network and proxy the data through another service to the outside world
 
 ## Debugging
 This module uses the Debug module for debugging for example for developement start the apps with

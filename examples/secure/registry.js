@@ -33,6 +33,7 @@ const myConfig = {
   useSelfSignedCerts: true,
   ca: `${__dirname}/../../tests/certs/ca/ca.crt`, // Only for self-signed-certs this is required
   makeServerThrow: false,
+  shouldServerRequestClientCerts: false, // If set to true clients should send certificates
 };
 // ^^^ If makeServerThrow === true server will throw an error and stop app execution
 // if false it will show a message and let your app run. This behaviour might change
