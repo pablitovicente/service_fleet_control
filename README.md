@@ -75,7 +75,7 @@ Namespaces are:
 * If this is useful for you donate to an Environmental Organization or Local School needing resources :)
 
 # Credits
-* [Heziode](https://github.com/Heziode) for the best [script](https://github.com/Heziode/Simple-TLS-Client-Server-with-Node.js) for generating certificates for client/server.
+* [Heziode](https://github.com/Heziode) for the best [script](https://github.com/Heziode/Simple-TLS-Client-Server-with-Node.js/blob/master/genkey.sh) for generating certificates for client/server.
 * The local 'Pizza Dev Team' for inspiring me to learn more.
 
 ## License
