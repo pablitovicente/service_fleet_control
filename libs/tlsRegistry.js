@@ -75,12 +75,27 @@ class TlSRegistry {
     this.server = this.tls.createServer(
       this.serverConfig,
       (socket) => {
+        let currentBuffer = Buffer.alloc(0);
+        let currentLength = 0;
         socket.on('data', (data) => {
-          this.processPacket(data);
+          // Backup Old Buffer Lenght
+          const oldLength = currentLength;
+          // Caculate new length
+          currentLength = oldLength + data.length;
+          // Create a new buffer with the correct size
+          let tempBuffer = Buffer.alloc(currentLength);
+          // Add existing data to tempBuffer
+          currentBuffer.copy(tempBuffer);
+          // Add incoming data to tempBuffer
+          data.copy(tempBuffer, oldLength);
+          // Make the tempBuffer the currentBuffer
+          currentBuffer = tempBuffer;
+          // Clear the tempBuffer
+          tempBuffer = null;
         });
 
-        // Register a listener for disconnections so we can keep the "user" list updated
-        socket.on('end', () => this.clientEndedConnection());
+        // On end pass the buffer so it can update the store @TODO MAKE THIS HANDLING WAAAAY BETTER
+        socket.on('end', () => this.clientEndedConnection(currentBuffer));
       },
     );
   }
@@ -120,7 +135,9 @@ class TlSRegistry {
     }
   }
 
-  clientEndedConnection() {
+  clientEndedConnection(buffer) {
+    this.processPacket(buffer);
+
     this.totalNumberUpdatesSent += 1;
     debug(this.getServiceFleetStatus());
     debug('#'.repeat(220));
