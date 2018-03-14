@@ -17,12 +17,13 @@
 */
 
 class Store {
-  constructor(config, DbDriver, _groupBy) {
+  constructor(config, DbDriver, _groupBy, omit) {
     this.config = config;
     this.DbDriver = DbDriver;
     this.groupBy = _groupBy;
     this.db = new this.DbDriver(this.config.dbName);
     this.collection = null;
+    this.omit = omit;
 
     this.setupRegistryCollection();
   }
@@ -34,7 +35,7 @@ class Store {
   }
 
   getAll() {
-    return this.collection.find();
+    return this.collection.find().map(aRecord => this.omit(aRecord, ['meta', '$loki']));
   }
 
   getOne(criteria) {

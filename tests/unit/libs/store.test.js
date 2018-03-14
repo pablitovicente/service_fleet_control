@@ -18,7 +18,7 @@
 const mocha = require('mocha');
 const chai = require('chai');
 const loki = require('lokijs');
-const { groupBy } = require('lodash');
+const { groupBy, omit } = require('lodash');
 const Store = require('../../../libs/store');
 
 const { expect } = chai;
@@ -86,6 +86,7 @@ describe('Store Class', () => {
       },
       loki,
       groupBy,
+      omit,
     );
   });
 
@@ -102,6 +103,7 @@ describe('Store Class', () => {
         'groupBy',
         'db',
         'collection',
+        'omit',
       ]);
 
       expect(store.config.dbName).to.be.eql('registry.test.db');

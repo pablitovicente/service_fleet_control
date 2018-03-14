@@ -19,7 +19,7 @@ const os = require('os');
 const tls = require('tls');
 const fs = require('fs');
 const loki = require('lokijs');
-const { groupBy } = require('lodash');
+const { groupBy, omit } = require('lodash');
 
 const Metrics = require('./libs/metrics');
 const TLSRegistry = require('./libs/tlsRegistry');
@@ -38,6 +38,7 @@ class Control {
       },
       loki,
       groupBy,
+      omit,
     );
 
     this.metrics = new Metrics({
