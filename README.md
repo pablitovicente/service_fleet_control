@@ -1,4 +1,4 @@
-# Service Fleet Control [![Build Status](https://travis-ci.org/pablitovicente/kaos_control.svg?branch=master)](https://travis-ci.org/pablitovicente/kaos_control) [![Maintainability](https://api.codeclimate.com/v1/badges/55329212248ff0e5c5c4/maintainability)](https://codeclimate.com/github/pablitovicente/kaos_control/maintainability)
+# Service Fleet Control [![Build Status](https://travis-ci.org/pablitovicente/service_fleet_control.svg?branch=master)](https://travis-ci.org/pablitovicente/service_fleet_control) [![Maintainability](https://api.codeclimate.com/v1/badges/a2110cffbdb6fa57caaf/maintainability)](https://codeclimate.com/github/pablitovicente/service_fleet_control/maintainability)
 
 
 
