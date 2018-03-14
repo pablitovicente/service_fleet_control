@@ -1,6 +1,6 @@
 {
   "name": "service_fleet_control",
-  "version": "0.5.7",
+  "version": "0.5.8",
   "description": "This modules enables your services to auto anounce themselves to a master service. The idea is for you to know what services are up, down, its status and how can they be reached by your master service. ",
   "main": "index.js",
   "scripts": {
@@ -16,7 +16,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/pablitovicente/kaos_control"
+    "url": "https://github.com/pablitovicente/service_fleet_control"
   },
   "author": "Pablo Vicente <ipassedthevoightkampff@gmail.com>",
   "license": "GPLv3",
