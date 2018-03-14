@@ -75,8 +75,6 @@ const updatedRecordOne = {
   groupingKey: 'Streaming',
 };
 
-
-
 describe('Store Class', () => {
   before(() => {
     store = new Store(
