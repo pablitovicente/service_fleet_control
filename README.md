@@ -30,6 +30,8 @@ npm i -save service_fleet_control
 * ~~Remove code duplication after TLS support added~~
 * ~~Extract DB methods to its own class~~
 * ~~Make TLS Client Certs Optional~~
+* Implement correct data buffering to support large payloads -in progress-
+* Improve Buffer Logic
 * Don't depend on data arrival to registry for refreshing status. Update via interval.
 * Add more test coverage
 * Refactor for solving the poor composition/DI implementations
