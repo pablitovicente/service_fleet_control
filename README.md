@@ -10,8 +10,9 @@
 > services are up, in what host, what are the basic OS metrics what your NodeJS service 
 > memory usage.
 
-* ALPHA STILL IN DEVELOPMENT! 
-* NON SECURE NET CLIENT/SERVER HAS BEEN DEPRECATED CHECK THE NEW EXAMPLES!
+## ALPHA STILL IN DEVELOPMENT! 
+* Non secure Net Client/Server has been deprecated; check the new examples
+* The module can alredy be used for studying its behaviour
 
 
 ## Install
@@ -20,7 +21,7 @@
 npm i -save service_fleet_control
 ```
 
-## @TODO before this can be used
+## @TODO before reaching an stable API & Protocol 
 * ~~Implement Registry Server~~
 * ~~Method for retreiving the data~~
 * ~~Add usage examples~~
