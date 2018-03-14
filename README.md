@@ -12,7 +12,7 @@
 
 ## ALPHA STILL IN DEVELOPMENT! 
 * Non secure Net Client/Server has been deprecated; check the new examples
-* The module can alredy be used for studying its behaviour
+* The module can already be used for studying its behaviour
 
 
 ## Install
