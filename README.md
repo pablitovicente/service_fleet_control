@@ -3,12 +3,12 @@
 
 
 > A module for service discovery and health status check for your fleet of microservices
-> Included it in your services and implement a registry server using this module so you can 
-> have information about the status of all of your services.
+> Include it in your nodejs services and implement a registry server using this module so 
+>you can have information about the status of all of your services.
 >
 > You only need to configure the module in your clients and you can know at any time what
-> services are up, in what host, what are the basic OS metrics what your NodeJS service 
-> memory usage.
+> services are up, in what host, what are the basic OS metrics and what your NodeJS service 
+> memory usage is.
 
 ## ALPHA STILL IN DEVELOPMENT! 
 * Non secure Net Client/Server has been deprecated; check the new examples
@@ -32,7 +32,10 @@ npm i -save service_fleet_control
 * ~~Extract DB methods to its own class~~
 * ~~Make TLS Client Certs Optional~~
 * ~~Implement correct data buffering to support large payloads~~
+* Add compression
 * Improve Buffer Logic
+* Improve packet handling
+* Define inital protocol
 * Don't depend on data arrival to registry for refreshing status. Update via interval.
 * Full Error Checking!
 * Add more test coverage
