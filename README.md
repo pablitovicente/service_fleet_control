@@ -32,10 +32,8 @@ npm i -save service_fleet_control
 * ~~Extract DB methods to its own class~~
 * ~~Make TLS Client Certs Optional~~
 * ~~Implement correct data buffering to support large payloads~~
-* Add compression
-* Improve Buffer Logic
-* Improve packet handling
 * Define inital protocol
+* Improve Buffer Logic (Move to Class)
 * Don't depend on data arrival to registry for refreshing status. Update via interval.
 * Full Error Checking!
 * Add more test coverage
@@ -44,6 +42,7 @@ npm i -save service_fleet_control
 * Add validation schemas for both Service and Registry
 * Create a full sample implementation
 * Drop JSON for Protocol Buffers
+* Add compression (For basic JSON data is not worth - need to research more)
 
 
 ## General Concept
