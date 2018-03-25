@@ -15,22 +15,24 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-const os = require('os');
-const tls = require('tls');
+const debug = require('debug')('SFC');
 const fs = require('fs');
 const loki = require('lokijs');
+const os = require('os');
+const tls = require('tls');
 const { groupBy, omit } = require('lodash');
 
 const Metrics = require('./libs/metrics');
+const Protocol = require('./libs/protocol');
+const Store = require('./libs/store');
 const TLSRegistry = require('./libs/tlsRegistry');
 const TLSClient = require('./libs/tlsClient');
-const Store = require('./libs/store');
 
-const debug = require('debug')('SFC');
 
 class Control {
   constructor(config) {
     this.config = config;
+    this.protocol = new Protocol();
     this.store = new Store(
       {
         dbName: 'registry.db',
