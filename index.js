@@ -83,6 +83,10 @@ class Control {
   startTLSClient() {
     this.tlsClient.start();
   }
+
+  stopTLSClient() {
+    this.tlsClient.stop();
+  }
 }
 
 module.exports = Control;

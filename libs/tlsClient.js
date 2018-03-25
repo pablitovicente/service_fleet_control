@@ -23,6 +23,7 @@ class Client {
     this.fs = fs;
     this.config = config;
     this.metrics = metrics;
+    this.ticker = null;
     this.tlsOptions = {
       hostname: this.config.registryHost,
       port: this.config.registryPort,
@@ -97,8 +98,13 @@ class Client {
     });
   }
 
+  stop() {
+    clearInterval(this.ticker);
+    this.ticker = null;
+  }
+
   start() {
-    setInterval(
+    this.ticker = setInterval(
       () => {
         this.connect();
         this.send(
@@ -111,6 +117,7 @@ class Client {
       },
       this.config.updateIntervalSeconds * 1000,
     );
+    return this.ticker;
   }
 }
 
