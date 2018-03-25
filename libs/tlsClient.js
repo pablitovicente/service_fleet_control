@@ -18,11 +18,15 @@
 const debug = require('debug')('SFC_client');
 
 class Client {
-  constructor(tls, fs, config, metrics) {
+  constructor(tls, fs, config, Metrics, os) {
     this.tls = tls;
     this.fs = fs;
     this.config = config;
-    this.metrics = metrics;
+    this.metrics = new Metrics({
+      os,
+      updateIntervalSeconds: this.config.updateIntervalSeconds,
+      hostName: this.config.hostName,
+    });
     this.ticker = null;
     this.tlsOptions = {
       hostname: this.config.registryHost,
