@@ -47,16 +47,11 @@ const control = new Control(myConfig);
 // Start it
 control.init();
 
-setTimeout(() => {
-  console.log('Stopping timer');
-  control.startTLSClient();
-}, 2000);
-
 
 setTimeout(() => {
-  console.log('Restarting timer');
+  console.log('Stop timer');
   control.stopTLSClient();
-}, 2000);
+}, 3000);
 
 // Setup your express routes, configuration, middlewares, etc.
 app.get('/auth', (req, res) => {
