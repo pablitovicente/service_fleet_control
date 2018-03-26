@@ -27,10 +27,10 @@ class Protocol {
 
   buildMessage(action, payload) {
     if (!this.isValidMessage(action)) throw new Error('Invalid Message! This means this NPM module is broken! This should never Happen as the protocol is internal to the Module!');
-    return {
+    return JSON.stringify({
       action,
       payload,
-    };
+    });
   }
 
   isValidMessage(action) {

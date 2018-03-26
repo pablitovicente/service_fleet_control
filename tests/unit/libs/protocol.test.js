@@ -51,7 +51,7 @@ describe('Protocol Class', () => {
     it('Builds a Message Correctly', () => {
       const action = 'HEALTH';
       const payload = { mem: 50 };
-      const message = protocol.buildMessage(action, payload);
+      const message = JSON.parse(protocol.buildMessage(action, payload));
       expect(message).to.include.all.keys(['action', 'payload']);
       expect(message.action).to.be.eql(action);
       expect(message.payload).to.be.eql(payload);
