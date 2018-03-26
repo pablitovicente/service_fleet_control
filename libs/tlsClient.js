@@ -18,9 +18,10 @@
 const debug = require('debug')('SFC_client');
 
 class Client {
-  constructor(tls, fs, config, Metrics, os) {
+  constructor(tls, fs, os, config, Metrics, Protocol) {
     this.tls = tls;
     this.fs = fs;
+    this.protocol = new Protocol();
     this.config = config;
     this.metrics = new Metrics({
       os,

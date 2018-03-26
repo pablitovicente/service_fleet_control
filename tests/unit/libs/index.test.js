@@ -3,6 +3,7 @@ const jsome = require('jsome');
 const Store = require('../../../libs/store');
 const Metrics = require('../../../libs/metrics');
 const Protocol = require('../../../libs/protocol');
+const mocha = require('mocha');
 const chai = require('chai');
 const mocks = require('../../mocks');
 const Control = require('../../../index');
@@ -24,17 +25,10 @@ describe('Index Class', () => {
       expect(control).to.have.keys([
         'config',
         'store',
-        'metrics',
-        'protocol',
         'configIsGood',
         'registryService',
+        'registryClient',
       ]);
-
-      expect(control.store).to.be.instanceof(Store);
-
-      expect(control.metrics).to.be.instanceof(Metrics);
-
-      expect(control.protocol).to.be.instanceof(Protocol);
     });
   });
 
@@ -54,6 +48,7 @@ describe('Index Class', () => {
       'init',
       'isTLSService',
       'isTLSRegistry',
+      'setupRegistryStore',
       'startTlSRegistryService',
       'startTLSClient',
       'stopTLSClient',

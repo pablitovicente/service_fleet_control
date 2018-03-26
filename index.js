@@ -32,7 +32,6 @@ const TLSClient = require('./libs/tlsClient');
 class Control {
   constructor(config) {
     this.config = config;
-    this.protocol = new Protocol();
     this.store = null;
     this.registryService = null;
     this.registryClient = null;
@@ -44,7 +43,7 @@ class Control {
     if (this.isTLSService()) {
       debug('Running TLS Client');
       this.configIsGood = true;
-      this.registryClient = new TLSClient(tls, fs, this.config, Metrics, os);
+      this.registryClient = new TLSClient(tls, fs, os, this.config, Metrics, Protocol);
       this.startTLSClient();
     } else if (this.isTLSRegistry()) {
       debug('Running TLS Registry');
