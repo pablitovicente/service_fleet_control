@@ -18,11 +18,16 @@
 const debug = require('debug')('SFC_client');
 
 class Client {
-  constructor(tls, fs, config, metrics) {
+  constructor(tls, fs, os, config, Metrics, Protocol) {
     this.tls = tls;
     this.fs = fs;
+    this.protocol = new Protocol();
     this.config = config;
-    this.metrics = metrics;
+    this.metrics = new Metrics({
+      os,
+      updateIntervalSeconds: this.config.updateIntervalSeconds,
+      hostName: this.config.hostName,
+    });
     this.ticker = null;
     this.tlsOptions = {
       hostname: this.config.registryHost,
@@ -82,18 +87,16 @@ class Client {
     this.socket.end();
   }
 
-  send(payload, metrics) {
-    const message = {
-      type: 'HEALTH',
-      payload: {
-        ...payload,
-        metrics: metrics.kpis(),
-        time: new Date(),
-      },
-    };
+  send() {
+    const message = this.protocol.buildMessage('HEALTH', {
+      serviceName: this.config.serviceName,
+      groupingKey: this.config.groupingKey,
+      metrics: this.metrics.kpis(),
+      time: new Date(),
+    });
 
-    debug(JSON.stringify(message, null, 2));
-    this.socket.write(JSON.stringify(message), () => {
+    debug(message);
+    this.socket.write(message, () => {
       this.disconnect();
     });
   }
@@ -107,13 +110,7 @@ class Client {
     this.ticker = setInterval(
       () => {
         this.connect();
-        this.send(
-          {
-            serviceName: this.config.serviceName,
-            groupingKey: this.config.groupingKey,
-          },
-          this.metrics,
-        );
+        this.send();
       },
       this.config.updateIntervalSeconds * 1000,
     );

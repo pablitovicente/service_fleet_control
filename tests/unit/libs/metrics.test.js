@@ -16,7 +16,6 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 const os = require('os');
-const mocha = require('mocha');
 const chai = require('chai');
 const Metrics = require('../../../libs/metrics');
 

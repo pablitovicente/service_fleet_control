@@ -15,56 +15,45 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-const os = require('os');
-const tls = require('tls');
+const debug = require('debug')('SFC');
 const fs = require('fs');
 const loki = require('lokijs');
+const os = require('os');
+const tls = require('tls');
 const { groupBy, omit } = require('lodash');
 
 const Metrics = require('./libs/metrics');
+const Protocol = require('./libs/protocol');
+const Store = require('./libs/store');
 const TLSRegistry = require('./libs/tlsRegistry');
 const TLSClient = require('./libs/tlsClient');
-const Store = require('./libs/store');
 
-const debug = require('debug')('SFC');
 
 class Control {
   constructor(config) {
     this.config = config;
-    this.store = new Store(
-      {
-        dbName: 'registry.db',
-        dbCollection: 'serviceNetwork',
-      },
-      loki,
-      groupBy,
-      omit,
-    );
-
-    this.metrics = new Metrics({
-      os,
-      updateIntervalSeconds: this.config.updateIntervalSeconds,
-      hostName: this.config.hostName,
-    });
+    this.store = null;
     this.registryService = null;
+    this.registryClient = null;
     this.configIsGood = false;
   }
 
   // Starts the client or server depending on the config
   init() {
     if (this.isTLSService()) {
-      debug('Running TLS Service');
+      debug('Running TLS Client');
       this.configIsGood = true;
-      this.tlsClient = new TLSClient(tls, fs, this.config, this.metrics);
+      this.registryClient = new TLSClient(tls, fs, os, this.config, Metrics, Protocol);
       this.startTLSClient();
     } else if (this.isTLSRegistry()) {
-      debug('Running TLS Server');
+      debug('Running TLS Registry');
+      this.setupRegistryStore();
       this.registryService = new TLSRegistry(tls, loki, fs, this.config, this.store);
       this.configIsGood = true;
       this.startTlSRegistryService();
     } else {
       this.configIsGood = false; // eslint-disable-next-line no-console
-      console.log('Service Fleet Control misconfiguration "role" should either be "server" or "client"');
+      console.log('Service Fleet Control misconfiguration "role" should either be "tlsRegistry" or "tlsService"');
     }
   }
 
@@ -76,16 +65,28 @@ class Control {
     return this.config.role === 'tlsRegistry';
   }
 
+  setupRegistryStore() {
+    this.store = new Store(
+      {
+        dbName: 'registry.db',
+        dbCollection: 'serviceNetwork',
+      },
+      loki,
+      groupBy,
+      omit,
+    );
+  }
+
   startTlSRegistryService() {
     this.registryService.listen();
   }
 
   startTLSClient() {
-    this.tlsClient.start();
+    this.registryClient.start();
   }
 
   stopTLSClient() {
-    this.tlsClient.stop();
+    this.registryClient.stop();
   }
 }
 
